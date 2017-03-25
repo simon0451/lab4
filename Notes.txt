@@ -1,0 +1,5 @@
+400 RPM
+Mass before: 15,375 g
+Mass after: 15340 g
+Torque: 74.1 ft-lb
+Power: 5.7 BHP

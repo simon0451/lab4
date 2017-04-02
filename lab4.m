@@ -23,7 +23,7 @@ cylNum = 2; %Number of cylinders
 
 %importing structured arrays
 nheaderlines = 22; %Data starts on line 23
-fileName = '900rpm.lvm';
+fileName = '800rpm.lvm';
 impStruct = importdata(fileName,'\t',nheaderlines); %data for the balloon with long tube
 impData = impStruct.data; %taking only the shit we care about
 time = impData(:,1); %time in column three is the same
@@ -37,19 +37,16 @@ oData = impData(:,4); %Optical sensor voltage data
 % oData = oData(1:2000); %taking only the first 5 cycles
 
 [pks,~,TDCs,~] = peaks(time,oData,1); %finding the peak locations of TDC
-TDC = TDCs(1); %defining the first spike as TDC
-tp1 = TDCs(1); %defining the second spike as tp1 (see ICE Lab overview.pdf)
-tp2 = TDCs(2); %defining the third spike as tp2
-[~,~,cyclesStarts,~] = peakdet(oData,1); %cyclesStarts is referenced later in the program
-
-
-
+% TDC = TDCs(1); %defining the first spike as TDC
+% tp1 = TDCs(1); %defining the second spike as tp1 (see ICE Lab overview.pdf)
+% tp2 = TDCs(2); %defining the third spike as tp2
+[~,~,cycleStarts,~] = peakdet(oData,1); %cycleStarts is referenced later in the program
 
 crankAngle = zeros(length(time),1);
 for i = 1:1:20
-    for j = cyclesStarts(i):cyclesStarts(i+1)-1
-        tp2 = time(cyclesStarts(i+1)-1);
-        tp1 = time(cyclesStarts(i));
+    for j = cycleStarts(i):cycleStarts(i+1)-1
+        tp2 = time(cycleStarts(i+1)-1);
+        tp1 = time(cycleStarts(i));
         crankAngle(j) = 2*pi*((tp2-time(j))/(tp2-tp1));
         
     end
@@ -66,12 +63,12 @@ R = l/a; %ratio of the length of the connecting rod to the radius of the cranksh
 
 cylinderVolume = Vc.*(1+.5.*(compressionRatio-1).*(R+1-cos(crankAngle)-((R.^2)-(sin(crankAngle).^2)).^.5));
 
-time = time(cyclesStarts(1):cyclesStarts(20));
+time = time(cycleStarts(1):cycleStarts(20));
 time = time-time(1); %rezeroing the new time
-pData = pData(cyclesStarts(1):cyclesStarts(20));
-oData = oData(cyclesStarts(1):cyclesStarts(20));
-cylinderVolume = cylinderVolume(cyclesStarts(1):cyclesStarts(20));
-crankAngle = crankAngle(cyclesStarts(1):cyclesStarts(20));
+pData = pData(cycleStarts(1):cycleStarts(20));
+oData = oData(cycleStarts(1):cycleStarts(20));
+cylinderVolume = cylinderVolume(cycleStarts(1):cycleStarts(20));
+crankAngle = crankAngle(cycleStarts(1):cycleStarts(20));
 
 figure(1)
 subplot(4,1,1)
@@ -127,8 +124,8 @@ axis ([xmin xmax ymin ymax])
 
 %% Deliverable 1 Part b
 
-startIndex = cyclesStarts(1); %TDC of the beginning of a cycle
-endIndex = cyclesStarts(3); %TDC of the next cycle
+startIndex = cycleStarts(1); %TDC of the beginning of a cycle
+endIndex = cycleStarts(3); %TDC of the next cycle
 sctime = time(startIndex:endIndex); %a new time array looking at only a single cycle
 sctime = sctime - sctime(1); %rezeroing time to begin at the first TDC
 
@@ -209,11 +206,15 @@ xlabel('Chamber Volume (ci)')
 ylabel('Chamber Pressure (psi)')
 grid on
 
-% figure(5)
-
-
 %% Deliverable 2 
-
+[avgW400,avgP400,stdW400,stdP400] = del2('400rpm.lvm');
+[avgW500,avgP500,stdW500,stdP500] = del2('500rpm.lvm');
+[avgW600,avgP600,stdW600,stdP600] = del2('600rpm.lvm');
+[avgW700,avgP700,stdW700,stdP700] = del2('700rpm.lvm');
+[avgW800,avgP800,stdW800,stdP800] = del2('800rpm.lvm');
+[avgW900,avgP900,stdW900,stdP900] = del2('900rpm.lvm');
+[avgW1000,avgP1000,stdW1000,stdP1000] = del2('1000rpm.lvm');
+[avgW1100,avgP1100,stdW1100,stdP1100] = del2('1100rpm.lvm');
 
 
 

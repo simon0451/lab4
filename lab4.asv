@@ -218,15 +218,8 @@ grid on
 
 %% Deliverable 3
 
-%finding the amount of air in the combustion chamber
-volume = displacement/2; %volume of a single cylinder in cubic inches
-rhoAir = 0.021186834; %grams per cubic inch
-
-airMass = volume*rhoAir; %mass of air in grams that is inducted into the
-%engine every intake stroke
-
 %mixture ratio air:fuel = 14.7:1
-mixture = 1/15.7; %amount of fuel (g) needed for 
+mixture = 14.7/15.7; %amount of air needed
 
 
 

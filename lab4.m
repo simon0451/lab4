@@ -47,7 +47,7 @@ for i = 1:1:20
     for j = cycleStarts(i):cycleStarts(i+1)-1
         tp2 = time(cycleStarts(i+1)-1);
         tp1 = time(cycleStarts(i));
-        crankAngle(j) = 2*pi*((tp2-time(j))/(tp2-tp1));
+        crankAngle(j) = 2*pi*(1-((tp2-time(j))/(tp2-tp1)));
         
     end
 end
@@ -217,16 +217,37 @@ grid on
 [avgW1100,avgP1100,stdW1100,stdP1100] = del2('1100rpm.lvm');
 
 %% Deliverable 3
+%Assuming all the energy in the fuel gets converted to work
 
-%finding the amount of air in the combustion chamber
-volume = displacement/2; %volume of a single cylinder in cubic inches
-rhoAir = 0.021186834; %grams per cubic inch
+%mass of fuel burned per some time interval for each engine speed
+fb1100 = 13215-13151;
+fb1000 = 13090-13003;
+fb900 = 12940-12865;
+fb800 = 12828-12762;
+fb700 = 12730-12670;
+fb600 = 12615-12565;
+fb500 = 12544-12501;
+fMass = [fb1100; fb1000; fb900; fb800; fb700; fb600; fb500;]; %first element in this array is the highest speed
+timeInt = 60; %seconds, the time interval of the test
+gassMass = fMass/timeInt; %the mass of gasoline burned per second for each RPM (g/s)
 
-airMass = volume*rhoAir; %mass of air in grams that is inducted into the
-%engine every intake stroke
+RPMs = [1100; 1000; 900; 800; 700; 600; 500;]*3.16; %engine RPMs corresponding to the fuel burn rates
+RPSs = RPMs/60; %engine speed, converting these values to rotations per second
+massPerCycle = (gassMass./RPSs)/2; %grams per rotation - the amount of fuel burned per thermodynamic cycle, per cylinder.
+% Divided by two because every other mechanical cycle is a combustion cycle
+% (4-stroke).
 
-%mixture ratio air:fuel = 14.7:1
-mixture = 1/15.7; %amount of fuel (g) needed for 
+
+
+
+
+
+
+
+gasSE = 46; %kJ/g, specific energy of gasoline
+
+
+
 
 
 

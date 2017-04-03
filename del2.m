@@ -1,4 +1,5 @@
 function [avgWork,avgPower,stdWork,stdPower] = del2(fileName)
+
 nheaderlines = 22; %Data starts on line 23
 impStruct = importdata(fileName,'\t',nheaderlines); %data for the balloon with long tube
 impData = impStruct.data; %taking only the shit we care about
@@ -59,10 +60,10 @@ power2(i) = (2.*(((work1(i)/12)))./(cycleTime))*60/33000; %American Brake Horsep
 end
 
 
-
 avgWork = mean(work1); %average work in lb-ft
 avgPower = mean(power2); %average power in bhp
-stdWork = std(work1); %standard deviation of the work values
+% stdWork = std(work1); %standard deviation of the work values
+stdWork = sqrt((sum((work1-avgWork).^2))./(length(work1)-1));
 stdPower = std(power2); %standard deviation of the power
 
 end

@@ -135,57 +135,57 @@ scoData = oData(startIndex:endIndex);
 sccylinderVolume = cylinderVolume(startIndex:endIndex);
 scpData = pData(startIndex:endIndex);
 
-figure(2)
-subplot(4,1,1)
-plot(sctime,scoData)
-title('Single Cycle Data: 2,528 RPM')
-legend('Optical Sensor Voltage','location','southeast')
-xlabel('Time (s)')
-ylabel('Voltage (V)')
-grid on
-xmin = 0;
-xmax = .039;
-ymin = 0;
-ymax = 4.5;
-axis ([xmin xmax ymin ymax])
-text(.03*xmax,.9*ymax,'Peaks Indicate TDC')
-
-
-subplot(4,1,2)
-plot(sctime,sccrankAngle)
-legend('Crank Angle','location','southeast')
-xlabel('Time (s)')
-ylabel('Crank Angle (rad)')
-grid on
-xmin = 0;
-xmax = .039;
-ymin = 0;
-ymax = 7;
-axis ([xmin xmax ymin ymax])
-
-subplot(4,1,3)
-plot(sctime,sccylinderVolume)
-legend('Chamber Volume','location','southeast')
-xlabel('Time (s)')
-ylabel('Chamber Volume (ci)')
-grid on
-xmin = 0;
-xmax = .039;
-ymin = 0;
-ymax = 25;
-axis ([xmin xmax ymin ymax])
-
-subplot(4,1,4)
-plot(sctime,scpData)
-legend('Chamber Pressure','location','southeast')
-xlabel('Time (s)')
-ylabel('Pressure (psi)')
-grid on
-xmin = 0;
-xmax = .039;
-ymin = -100;
-ymax = 550;
-axis ([xmin xmax ymin ymax])
+% figure(2)
+% subplot(4,1,1)
+% plot(sctime,scoData)
+% title('Single Cycle Data: 2,528 RPM')
+% legend('Optical Sensor Voltage','location','southeast')
+% xlabel('Time (s)')
+% ylabel('Voltage (V)')
+% grid on
+% xmin = 0;
+% xmax = .039;
+% ymin = 0;
+% ymax = 4.5;
+% axis ([xmin xmax ymin ymax])
+% text(.03*xmax,.9*ymax,'Peaks Indicate TDC')
+% 
+% 
+% subplot(4,1,2)
+% plot(sctime,sccrankAngle)
+% legend('Crank Angle','location','southeast')
+% xlabel('Time (s)')
+% ylabel('Crank Angle (rad)')
+% grid on
+% xmin = 0;
+% xmax = .039;
+% ymin = 0;
+% ymax = 7;
+% axis ([xmin xmax ymin ymax])
+% 
+% subplot(4,1,3)
+% plot(sctime,sccylinderVolume)
+% legend('Chamber Volume','location','southeast')
+% xlabel('Time (s)')
+% ylabel('Chamber Volume (ci)')
+% grid on
+% xmin = 0;
+% xmax = .039;
+% ymin = 0;
+% ymax = 25;
+% axis ([xmin xmax ymin ymax])
+% 
+% subplot(4,1,4)
+% plot(sctime,scpData)
+% legend('Chamber Pressure','location','southeast')
+% xlabel('Time (s)')
+% ylabel('Pressure (psi)')
+% grid on
+% xmin = 0;
+% xmax = .039;
+% ymin = -100;
+% ymax = 550;
+% axis ([xmin xmax ymin ymax])
 
 %plotting the P-V diagram for the combustion chamber
 figure(3)
@@ -237,14 +237,13 @@ massPerCycle = (gassMass./RPSs)/2; %grams per rotation - the amount of fuel burn
 % Divided by two because every other mechanical cycle is a combustion cycle
 % (4-stroke).
 
+airMassPerCycle = massPerCycle.*14.7; %finding how many grams of air are inhaled per thermodynamic cycle
 
+%computing the heat released per cycle
+gasSE = 44; %kJ/g, specific energy of gasoline
+heatPerCycle = massPerCycle.*gasSE; %kilojoules of heat released per cycle assuming complete combustion
 
-
-
-
-
-
-gasSE = 46; %kJ/g, specific energy of gasoline
+%calculating for brake thermal efficiency
 
 
 
